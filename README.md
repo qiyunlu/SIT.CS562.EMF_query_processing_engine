@@ -1,7 +1,8 @@
 # SIT.CS562.EMF_Query_Processing_Engine
-**********************
-Functional Description
+=======================================
 
+Functional Description
+----------------------
 This project is to build a query processing engine for Ad-Hoc OLAP queries.
 Project reads in special formatted Ad-Hoc OLAP queries and generates a java program which can run independently to get the result.
 The query construct is based on an extended SQL syntax known as MF and EMF queries.
@@ -9,7 +10,7 @@ The query construct is based on an extended SQL syntax known as MF and EMF queri
 
 ***********************
 Development Environment
-
+-----------------------
 Windows 10 Pro, 64-bit Operating System, x64-based processor
 Java(TM) SE Runtime Environment (build 1.8.0_161-b12)
 PostgreSQL 10.5, compiled by Visual C++ build 1800, 64-bit
@@ -18,14 +19,14 @@ JDBC Driver Version 42.2.5
 
 *****************
 Project Structure
-
+-----------------
 -lib    // Libraries
 -src    // Source files
 
 
 **********
 How To Run
-
+----------
 1. Download JDBC Driver corresponding to your java version and postgreSQL version, and put it under "lib" directory. (Link https://jdbc.postgresql.org/download.html)
 2. Open Windows Command Processor (not PowerShell), and go under "src" directory.
 3. Make sure there's no "Query.java" file. If you have, delete it.
@@ -42,7 +43,7 @@ How To Run
 
 ***********
 How To Test
-
+-----------
 1. Make sure you have the "Query.java" file by following the steps in "How To Run" section.
 2. To compile, run command:
         javac -encoding utf-8 Query.java
@@ -54,7 +55,7 @@ How To Test
 
 ************
 Input Format
-
+------------
 1. MF queries are transformed to EMF format.
 2. Must be 12 lines.
 3. All aggregates and attributes related to grouping variables need to be transformed. Like avg(x.quant) -> avg_1_quant, x.quant -> 1.quant.
@@ -85,7 +86,7 @@ prod, month
 
 ***************
 Database Format
-
+---------------
 1. Must be 8 lines.
 2. Odd lines are identification tags. Unchangeable.
 3. Even lines are information of your database and table. Changeable.
@@ -103,19 +104,19 @@ sales
 
 *******
 Version
-
+-------
 1.0
 Created on November 27, 2018
 
 
 **************
 Developer List
-
+--------------
 Team: Eclipse Addict
 Member: Qiyun Lu
 
 
 *******************
 Contact Information
-
+-------------------
 qlu5@stevens.edu

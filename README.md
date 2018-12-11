@@ -1,5 +1,4 @@
 # SIT.CS562.EMF_Query_Processing_Engine
-=======================================
 
 Functional Description
 ----------------------
@@ -68,6 +67,7 @@ Input Format
 -Line 8: Aggregates of the same grouping variable are put in one group and separated by commas. Each group is separated by a semicolon. Grouping variables are arranged from small to large. If one grouping variable has no aggregate, just insert a space to take a place.
 -Line 10: Such that clauses of the same grouping variable are put in one group. Each group is separated by a semicolon. Grouping variables are arranged from small to large. If one grouping variable has no aggregate, just insert a space to take a place.
 -Line 12: Insert the whole having condition. If there's no having condition, just insert a space to take a place.
+
 ----------------------Example---------------------
 // SELECT ATTRIBUTE(S):
 prod, month, count_3_quant
@@ -90,6 +90,7 @@ Database Format
 1. Must be 8 lines.
 2. Odd lines are identification tags. Unchangeable.
 3. Even lines are information of your database and table. Changeable.
+
 ----------------------Example---------------------
 // database user
 postgres

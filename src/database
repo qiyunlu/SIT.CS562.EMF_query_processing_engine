@@ -1,0 +1,8 @@
+﻿// database user
+postgres
+// database password
+26892681147
+// database url
+jdbc:postgresql://localhost:5432/postgres
+// table name
+sales

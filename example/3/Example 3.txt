@@ -1,0 +1,39 @@
+﻿=============================MF/EMF Query=============================
+select cust, month, avg(x.quant), avg(quant), avg(y.quant)
+from sales
+group by cust, month; x, y
+such that x.cust = cust and x.month < month,
+          y.cust = cust and y.month > month
+=============================Input Format=============================
+// SELECT ATTRIBUTE(S):
+cust, month, avg_1_quant, avg_0_quant, avg_2_quant
+// NUMBER OF GROUPING VARIABLES(n):
+2
+// GROUPING ATTRIBUTES(V):
+cust, month
+// F-VECT([F]):
+avg_0_quant; avg_1_quant; avg_2_quant
+// SELECT CONDITION-VECT([Sigma]):
+0.cust = cust and 0.month = month; 1.cust = cust and 1.month < month; 2.cust = cust and 2.month > month
+// HAVING CONDITION(G):
+ 
+===========================PostgreSQL Query===========================
+WITH
+"B1" AS
+( SELECT z.cust, z.month, avg(x.quant)
+  FROM sales x, sales z
+  WHERE x.cust = z.cust AND x.month < z.month
+  GROUP BY z.cust, z.month ),
+"B2" AS
+( SELECT z.cust, z.month, avg(y.quant)
+  FROM sales z, sales y
+  WHERE z.cust = y.cust AND z.month < y.month
+  GROUP BY z.cust, z.month ),
+"B3" AS
+( SELECT cust, month, avg(quant)
+  FROM sales
+  GROUP BY cust, month )
+
+SELECT z.cust, z.month, x.avg, z.avg, y.avg
+FROM "B1" x FULL OUTER JOIN "B2" y USING("cust", "month") FULL OUTER JOIN "B3" z USING("cust", "month")
+ORDER BY z.cust, z.month

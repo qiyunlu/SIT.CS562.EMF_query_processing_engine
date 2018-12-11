@@ -1,0 +1,51 @@
+﻿=============================MF/EMF Query=============================
+select prod, month, sum(x.quant), sum(y.quant)
+from sales
+group by prod, month; x, y
+such that x.prod = prod and x.month = month,
+          y.prod = prod
+----------------------------------------------------------------------
+select prod, month, sum(quant), sum(y.quant)
+from sales
+group by prod, month; y
+such that y.prod = prod
+=============================Input Format=============================
+// SELECT ATTRIBUTE(S):
+prod, month, sum_1_quant, sum_2_quant
+// NUMBER OF GROUPING VARIABLES(n):
+2
+// GROUPING ATTRIBUTES(V):
+prod, month
+// F-VECT([F]):
+ ; sum_1_quant; sum_2_quant
+// SELECT CONDITION-VECT([Sigma]):
+ ; 1.prod = prod and 1.month = month; 2.prod = prod
+// HAVING CONDITION(G):
+ 
+----------------------------------------------------------------------
+SELECT ATTRIBUTE(S):
+prod, month, sum_0_quant, sum_1_quant
+NUMBER OF GROUPING VARIABLES(n):
+1
+GROUPING ATTRIBUTES(V):
+prod, month
+F-VECT([F]):
+sum_0_quant; sum_1_quant
+SELECT CONDITION-VECT([σ]):
+0.prod = prod and 0.month = month; 1.prod = prod
+HAVING_CONDITION(G):
+ 
+===========================PostgreSQL Query===========================
+WITH
+"B1" AS
+( SELECT prod, month, sum(quant)
+  FROM sales
+  GROUP BY prod, month ),
+"B2" AS
+( SELECT prod, sum(quant)
+  FROM sales
+  GROUP BY prod )
+
+SELECT x.prod, x.month, x.sum, y.sum
+FROM "B1" x FULL OUTER JOIN "B2" y USING("prod")
+ORDER BY x.prod, x.month

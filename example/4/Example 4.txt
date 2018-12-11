@@ -1,0 +1,38 @@
+﻿=============================MF/EMF Query=============================
+select prod, month, count(z.quant)
+from sales
+group by prod, month; x, y, z
+such that x.prod = prod and x.month = month - 1,
+          y.prod = prod and y.month = month + 1,
+          z.prod = prod and z.month = month and z.quant > avg(x.quant) and z.quant < avg(y.quant)
+=============================Input Format=============================
+// SELECT ATTRIBUTE(S):
+prod, month, count_3_quant
+// NUMBER OF GROUPING VARIABLES(n):
+3
+// GROUPING ATTRIBUTES(V):
+prod, month
+// F-VECT([F]):
+ ; avg_1_quant; avg_2_quant; count_3_quant
+// SELECT CONDITION-VECT([Sigma]):
+ ; 1.prod = prod and 1.month = month - 1; 2.prod = prod and 2.month = month + 1; 3.prod = prod and 3.month = month and 3.quant > avg_1_quant and 3.quant < avg_2_quant
+// HAVING CONDITION(G):
+ 
+===========================PostgreSQL Query===========================
+WITH
+"B1" AS
+( SELECT z.prod, z.month, avg(x.quant)
+  FROM sales x, sales z
+  WHERE x.prod = z.prod AND x.month = z.month - 1
+  GROUP BY z.prod, z.month ),
+"B2" AS
+( SELECT z.prod, z.month, avg(y.quant)
+  FROM sales z, sales y
+  WHERE z.prod = y.prod AND y.month = z.month + 1
+  GROUP BY z.prod, z.month )
+
+SELECT z.prod, z.month, count(z.quant)
+FROM "B1" x FULL OUTER JOIN "B2" y USING("prod", "month") FULL OUTER JOIN "sales" z USING("prod", "month")
+WHERE z.quant > x.avg and z.quant < y.avg
+GROUP BY z.prod, z.month
+ORDER BY z.prod, z.month

@@ -1,0 +1,34 @@
+﻿=============================MF/EMF Query=============================
+select cust, prod, avg(x.quant), avg(y.quant)
+from sales
+group by cust, prod; x, y
+such that x.cust = cust and x.prod = prod,
+          y.cust <> cust and y.prod = prod
+=============================Input Format=============================
+// SELECT ATTRIBUTE(S):
+cust, prod, avg_1_quant, avg_2_quant
+// NUMBER OF GROUPING VARIABLES(n):
+2
+// GROUPING ATTRIBUTES(V):
+cust, prod
+// F-VECT([F]):
+ ; avg_1_quant; avg_2_quant
+// SELECT CONDITION-VECT([Sigma]):
+ ; 1.prod = prod and 1.cust = cust; 2.prod = prod and 2.cust <> cust
+// HAVING CONDITION(G):
+ 
+===========================PostgreSQL Query===========================
+WITH
+"B1" AS
+( SELECT cust, prod, avg(quant)
+  FROM sales
+  GROUP BY cust, prod ),
+"B2" AS
+( SELECT x.cust, x.prod, avg(y.quant)
+  FROM sales x, sales y
+  WHERE x.prod = y.prod AND x.cust <> y.cust
+  GROUP BY x.cust, x.prod )
+
+SELECT x.cust, x.prod, x.avg, y.avg
+FROM "B1" x FULL OUTER JOIN "B2" y USING("cust", "prod")
+ORDER BY x.cust, x.prod

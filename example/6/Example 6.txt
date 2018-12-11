@@ -1,0 +1,37 @@
+﻿=============================MF/EMF Query=============================
+select prod, quant
+from sales
+group by prod, quant; x, y
+such that x.prod = prod,
+          y.prod = prod and y.quant < quant
+having count(y.prod) = count(x.prod) / 2
+=============================Input Format=============================
+// SELECT ATTRIBUTE(S):
+prod, quant
+// NUMBER OF GROUPING VARIABLES(n):
+2
+// GROUPING ATTRIBUTES(V):
+prod, quant
+// F-VECT([F]):
+ ; count_1_prod; count_2_prod
+// SELECT CONDITION-VECT([Sigma]):
+ ; 1.prod = prod; 2.prod = prod and 2.quant < quant
+// HAVING CONDITION(G):
+count_2_prod = count_1_prod / 2
+===========================PostgreSQL Query===========================
+WITH
+"B1" AS
+( SELECT z.prod, z.quant, count(x.prod)
+  FROM sales x, sales z
+  WHERE z.prod = x.prod
+  GROUP BY z.prod, z.quant ),
+"B2" AS
+( SELECT z.prod, z.quant, count(y.prod)
+  FROM sales y, sales z
+  WHERE z.prod = y.prod AND y.quant < z.quant
+  GROUP BY z.prod, z.quant )
+
+SELECT x.prod, x.quant
+FROM "B1" x FULL OUTER JOIN "B2" y USING("prod", "quant")
+WHERE y.count = x.count / 2
+ORDER BY x.prod, x.quant

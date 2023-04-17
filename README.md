@@ -122,4 +122,4 @@ Member: Qiyun Lu<br>
 *******************
 Contact Information
 -------------------
-qlu5@stevens.edu<br>
+qiyunlu@outlook.com<br>

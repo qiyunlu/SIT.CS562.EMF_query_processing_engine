@@ -106,13 +106,6 @@ sales<br>
 
 
 *******
-Version
--------
-1.0<br>
-Created on November 27, 2018<br>
-
-
-**************
 Developer List
 --------------
 Team: Eclipse Addict<br>

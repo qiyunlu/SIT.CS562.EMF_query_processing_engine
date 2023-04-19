@@ -1,5 +1,8 @@
 # SIT.CS562.EMF_Query_Processing_Engine
 
+## Archive Note
+This project is no longer actively maintained. The latest version of the project is v0.1.0-alpha, which was last updated on Apr 18, 2023.
+
 Functional Description
 ----------------------
 This project is to build a query processing engine for Ad-Hoc OLAP queries.<br>
